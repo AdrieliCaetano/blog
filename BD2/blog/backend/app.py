@@ -8,6 +8,7 @@ app.config['MONGO_URI'] = 'mongodb://localhost:27017/blog'
 mongo = PyMongo(app)
 
 db = mongo.db
+db.usuario.create_index([('email', 1)], unique=True)
 
 @app.route('/')
 def index():
@@ -16,9 +17,14 @@ def index():
 @app.route('/usuarios', methods= ['GET'])
 def get_usuarios():
     usuarios = list(db.usuario.find())
-    usuarios_json = [{"_id": str(usuario['_id']),"nome": usuario.get("nome"), "sobrenome":usuario.get("sobrenome"), "email": usuario.get("email", "")} for usuario in usuarios]
+    usuarios_json = [
+        {
+        "_id": str(usuario['_id']),
+        "nome": usuario.get("nome"),
+        "sobrenome":usuario.get("sobrenome"),
+        "email": usuario.get("email")
+        } for usuario in usuarios]
     return jsonify(usuarios_json)
-
 
 @app.route('/usuarios/<string:usuario_id>', methods=['GET'])
 def get_usuario(usuario_id):
@@ -33,11 +39,13 @@ def get_usuario(usuario_id):
 @app.route('/usuarios', methods = ['POST'])
 def create_usuario():
     dados_usuarios = request.json
-    if not request.json  or 'nome' not in request.json or 'sobrenome' not in request.json:
+    if not request.json  or 'nome' not in request.json or 'sobrenome' not in request.json or 'email' not in request.json:
         return jsonify({'error': 'Dados inválidos'}), 400
+    if db.usuario.find_one({"email": dados_usuarios['email']}):
+        return jsonify({'error': 'E-mail já registrado'}), 400
     result = db.usuario.insert_one(dados_usuarios)
     usuario_id = str(result.inserted_id)
-    return jsonify({'message': "Usuário inserido com sucesso",'id': usuario_id,}), 201
+    return jsonify({'message': "Usuário inserido com sucesso",'_id': usuario_id,}), 201
 
 @app.route('/usuarios/<string:usuario_id>', methods=['PUT'])
 def update_usuario(usuario_id):
@@ -46,14 +54,19 @@ def update_usuario(usuario_id):
     if not usuario:
         return jsonify({"error": "Usuário não encontrado"}), 404
     dados_atualizados = request.json
+    email_atualizado = dados_atualizados.get("email", usuario.get("email"))
+
+    if db.usuario.find_one({"email": email_atualizado, "_id": {"$ne": id_objeto}}):
+        return jsonify({'error': 'E-mail já registrado'}), 400
+    
     usuario_atualizado = {
         "_id": id_objeto,
         "nome": dados_atualizados.get("nome", usuario.get("nome")),
         "sobrenome": dados_atualizados.get("sobrenome", usuario.get("sobrenome")),
-        "email": dados_atualizados.get("email", usuario.get("email")),
+        "email": email_atualizado,
     }
-    db.usuario.delete_one({"_id": id_objeto})
-    db.usuario.insert_one(usuario_atualizado)
+
+    db.usuario.replace_one({"_id": id_objeto}, usuario_atualizado)
     return jsonify({'message': 'Usuário atualizado com sucesso'}), 200
 
 @app.route('/usuarios/<string:usuario_id>', methods=['DELETE'])
