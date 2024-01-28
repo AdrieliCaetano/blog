@@ -1,0 +1,80 @@
+.comment-form-container {
+    margin-top: 10px;
+}
+
+.comment-form {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.add-comment-button,
+.submit-comment-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-comment-button:hover,
+.submit-comment-button:hover {
+    background-color: #0056b3;
+}
+
+input[type='text']#comment- {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.author-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+
+.add-comment-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.comment-form {
+    display: flex;
+    flex-grow: 1;
+    gap: 8px;
+}
+
+.comment-form input[type="text"],
+.comment-form select {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.submit-comment-button {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment {
+    margin-bottom: 10px; /* Adiciona um espaço abaixo de cada comentário */
+}
+

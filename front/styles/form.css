@@ -1,0 +1,42 @@
+#postForm label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#postForm input[type="text"],
+#postForm textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+#postForm input[type="file"] {
+    margin-top: 10px;
+}
+
+#postForm button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#postForm button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#postAuthor {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+#postAuthor:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
