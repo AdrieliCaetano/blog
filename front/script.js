@@ -16,10 +16,13 @@ function renderPosts(posts = database.posts) {
     posts.forEach(post => {
         const postElement = document.createElement('div');
         postElement.className = 'post';
-        const creationDate = new Date(post.date).toLocaleString('pt-BR', {
+        const date = new Date(post.date);
+        const formattedDate = date.toLocaleString('pt-BR', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
+        });
+        const formattedTime = date.toLocaleString('pt-BR', {
             hour: '2-digit',
             minute: '2-digit'
         });
@@ -27,7 +30,7 @@ function renderPosts(posts = database.posts) {
         let postHtml = `
             <div class="post-header">
                 <h2>${post.title}</h2>
-                <span class="post-date">${creationDate}</span>
+                <span class="post-date">${formattedDate} (${formattedTime})</span>
             </div>
             <p>Autor: ${post.author}</p>
             ${post.tag ? `<p>Tag: ${post.tag}</p>` : ''}
@@ -37,6 +40,7 @@ function renderPosts(posts = database.posts) {
                 ${renderComments(post.id)}
             </div>
         `;
+
         postElement.innerHTML = postHtml;
         postList.appendChild(postElement);
 
@@ -47,7 +51,7 @@ function renderPosts(posts = database.posts) {
         // Botão para mostrar o formulário de comentário
         const addCommentButton = document.createElement('button');
         addCommentButton.textContent = 'Adicionar comentário';
-        addCommentButton.className = 'add-comment-button'; // Adicione uma classe para estilização
+        addCommentButton.className = 'add-comment-button';
 
         // Formulário de comentários, inicialmente oculto
         const commentFormContainer = document.createElement('div');
@@ -67,7 +71,7 @@ function renderPosts(posts = database.posts) {
 
         // Seletor de autores
         const authorSelect = document.createElement('select');
-        authorSelect.className = 'author-select'; // Adicione uma classe para estilização
+        authorSelect.className = 'author-select';
         database.authors.forEach(author => {
             const option = document.createElement('option');
             option.value = author.id;
@@ -79,7 +83,7 @@ function renderPosts(posts = database.posts) {
         const submitButton = document.createElement('button');
         submitButton.textContent = 'Comentar';
         submitButton.type = 'submit';
-        submitButton.className = 'submit-comment-button'; // Adicione uma classe para estilização
+        submitButton.className = 'submit-comment-button';
 
         // Adicionando elementos ao formulário de comentários
         commentForm.appendChild(commentInput);
@@ -101,7 +105,7 @@ function renderPosts(posts = database.posts) {
             e.preventDefault();
             addComment(post.id, commentInput.value, authorSelect.value);
             commentInput.value = '';
-            commentFormContainer.style.display = 'none'; // Esconde o formulário após o envio
+            commentFormContainer.style.display = 'none';
         };
 
         // Evento de clique para o botão que mostra e esconde o formulário de comentários
@@ -117,7 +121,6 @@ function renderPosts(posts = database.posts) {
     });
 }
 
-// Funções relacionadas às postagens
 function addPost(title, content, author, image, tag) {
     const newPost = {
         id: Date.now(),
@@ -132,17 +135,13 @@ function addPost(title, content, author, image, tag) {
     return newPost;
 }
 
-// Função modificada para retornar a nova postagem
 function addPostAndRender(title, content, authorId, image, tag) {
-    // Encontra o autor pelo ID
+
     const author = database.authors.find(a => a.id === authorId);
     const authorName = author ? `${author.name} ${author.surname}` : 'Autor Desconhecido';
-
-    // Adiciona a nova postagem e retorna
     const newPost = addPost(title, content, authorName, image, tag);
     renderPosts();
 
-    // Limpeza dos campos do formulário
     document.getElementById('postTitle').value = '';
     document.getElementById('postContent').value = '';
     document.getElementById('postAuthor').value = '';
@@ -152,55 +151,51 @@ function addPostAndRender(title, content, authorId, image, tag) {
     return newPost;
 }
 
-// Evento de submissão do formulário de postagem
-// Evento de submissão do formulário de postagem
 postForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Obtém os valores do formulário
     const postTitle = document.getElementById('postTitle').value;
     const postContent = document.getElementById('postContent').value;
     const postAuthor = document.getElementById('postAuthor').value;
     const postTag = document.getElementById('postTag').value;
-    const postImageUrl = document.getElementById('postImage').value; // Agora é uma URL de imagem
+    const postImageUrl = document.getElementById('postImage').value;
 
     const newPost = addPostAndRender(postTitle, postContent, postAuthor, postImageUrl, postTag);
 
-    // Fecha o modal de postagem
     postModal.style.display = 'none';
 
-    // Cria um ID único para a nova postagem baseado no timestamp
     const postId = `post-${newPost.id}`;
     const postElement = document.createElement('div');
     postElement.id = postId;
     document.getElementById('postList').appendChild(postElement);
-
-    // Desloca a página até a nova postagem
     document.getElementById(postId).scrollIntoView({ behavior: 'smooth' });
 });
 
 // CRIAÇÃO DE COMENTÁRIOS
 
-// Função para renderizar comentários
 function renderComments(postId) {
     const comments = database.comments.filter(comment => comment.postId === postId);
     return comments.map(comment => {
-        // Crie um objeto Date com a data do comentário
-        const date = new Date(comment.date);
-        // Formate a data e a hora no formato desejado
-        const formattedDate = date.toLocaleString('pt-BR', {
+
+        const commentDate = new Date(comment.date);
+        const formattedCommentDate = commentDate.toLocaleString('pt-BR', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
         });
+        const formattedCommentTime = commentDate.toLocaleString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+
+        const fullCommentDate = `${formattedCommentDate} (${formattedCommentTime})`;
 
         return `
             <div class="comment">
                 <div class="comment-header">
                     <span class="comment-author">${comment.author}</span>
-                    <span class="comment-date">${formattedDate}</span>
+                    <span class="comment-date">${fullCommentDate}</span>
                 </div>
                 <p class="comment-text">${comment.text}</p>
             </div>
@@ -208,23 +203,21 @@ function renderComments(postId) {
     }).join('');
 }
 
-
-// Função para adicionar um comentário
 function addComment(postId, commentText, authorId) {
-    // Encontra o autor pelo ID
+
     const author = database.authors.find(a => a.id === authorId);
     const authorName = author ? `${author.name} ${author.surname}` : 'Autor Desconhecido';
 
     const newComment = {
-        id: Date.now(), // Usando o timestamp como ID temporário
+        id: Date.now(),
         text: commentText,
         date: new Date().toISOString(),
-        author: authorName, // Agora usamos o nome do autor
+        author: authorName,
         postId: postId
     };
 
     database.comments.push(newComment);
-    renderPosts(); // Re-renderiza as postagens para mostrar o novo comentário
+    renderPosts();
 }
 
 // CRIAÇÃO DE AUTOR
@@ -239,16 +232,12 @@ function updateAuthorDropdown() {
     ).join('');
 }
 
-
 authorForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Gera um ID único para o novo autor. Este é apenas um exemplo e pode ser substituído
-    // por qualquer método de geração de ID que você prefira.
     const newAuthorId = Date.now().toString();
-
     const newAuthor = {
-        id: newAuthorId, // Certifique-se de que este campo 'id' seja adicionado
+        id: newAuthorId,
         name: document.getElementById('authorName').value,
         surname: document.getElementById('authorSurname').value,
         email: document.getElementById('authorEmail').value,
@@ -264,7 +253,6 @@ authorForm.addEventListener('submit', function (e) {
 const searchButton = document.getElementById('searchButton');
 const searchInput = document.getElementById('searchInput');
 
-// Funções de busca
 function searchPosts(query) {
     const lowerCaseQuery = query.toLowerCase();
     const filteredPosts = database.posts.filter(post =>
@@ -276,7 +264,6 @@ function searchPosts(query) {
 
     renderPosts(filteredPosts);
 
-    // Rolar para os resultados da busca
     const postList = document.getElementById('postList');
     if (postList) {
         postList.scrollIntoView({ behavior: 'smooth' });
@@ -295,11 +282,10 @@ searchInput.addEventListener('keyup', (e) => {
 
 // POST MODAL
 
-// Parte do script relacionada ao modal de postagem
 const postModal = document.getElementById('postModal');
 const openPostModal = document.getElementById('openPostModal');
 const closePostModal = document.getElementById('closePostModal');
-const modalContent = document.querySelector('.modal-content'); // Adicione uma classe ao conteúdo do seu modal
+const modalContent = document.querySelector('.modal-content');
 
 openPostModal.onclick = function () {
     postModal.style.display = 'block';
@@ -309,7 +295,6 @@ closePostModal.onclick = function () {
     postModal.style.display = 'none';
 };
 
-// Função para fechar o modal se o clique for fora do conteúdo do modal
 window.onclick = function (event) {
     if (event.target == postModal) {
         postModal.style.display = 'none';
