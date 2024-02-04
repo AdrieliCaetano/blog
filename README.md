@@ -12,7 +12,7 @@ Este projeto consiste na criação um site do tipo blog voltado para a criação
   - Altere informações sobre o banco de dados no arquivo [`app.py`]() (linha 11)
   ```bash
   app.config['MONGO_URI'] = 'mongodb://localhost:27017/blog'
-  # substituia 'mongodb://localhost:27017/' pela sua URI do mongo
+  # substitua 'mongodb://localhost:27017/' pela sua URI do mongo
   ```
   - No diretório () rode a aplicação aplicando o comando:
   ```bash
