@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Título do Blog</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/form.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/modal.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/post.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/comment.css') }}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div class="titulo">
+        <img
+          src="{{ url_for('static', filename='images/logo.jpg') }}"
+          alt="Logo do Blog"
+        />
+        <h1>Blog</h1>
+      </div>
+      <div class="botoes">
+        <button class="button" id="contentButton">Início</button>
+        <div class="dropdown">
+          <button class="button">Autores</button>
+          <div class="dropdown-content">
+            <a href="#" id="showAuthorListButton">Listar Autores</a>
+            <a href="#" id="openAuthorModal">Criar Autor</a>
+          </div>
+        </div>
+        <button class="button" id="openPostModal">Criar Post</button>
+        <button class="button" id="searchButton">Buscar</button>
+        <div class="search-container">
+          <input type="text" id="searchInput" />
+        </div>
+      </div>
+    </header>
+    <div id="authorModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="authorForm">
+          <label for="authorName">Nome:</label>
+          <input type="text" id="authorName" required />
+
+          <label for="authorSurname">Sobrenome:</label>
+          <input type="text" id="authorSurname" required />
+
+          <label for="authorEmail">Email:</label>
+          <input type="email" id="authorEmail" required />
+          <button type="submit">Cadastrar Autor</button>
+        </form>
+      </div>
+    </div>
+    <div id="editAuthorModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="editAuthorForm">
+          <label for="editAuthorName">Nome:</label>
+          <input type="text" id="editAuthorName" required />
+
+          <label for="editAuthorSurname">Sobrenome:</label>
+          <input type="text" id="editAuthorSurname" required />
+
+          <label for="editAuthorEmail">Email:</label>
+          <input type="email" id="editAuthorEmail" required />
+          <button type="submit">Atualizar Autor</button>
+        </form>
+      </div>
+    </div>
+    <!-- MODAL DE LISTAR AUTORES -->
+    <div id="authorListModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="authorList">
+          <!-- Autores são listados aqui -->
+        </div>
+      </div>
+    </div>
+
+    <!-- O Modal -->
+    <div id="postModal" class="modal">
+      <!-- Conteúdo do modal -->
+      <div class="modal-content">
+        <span id="closePostModal" class="close">&times;</span>
+        <form id="postForm">
+          <label for="postTitle">Título:</label>
+          <input type="text" id="postTitle" name="titulo" required />
+          <label for="postTags">Tags:</label>
+          <input
+            type="text"
+            id="postTags"
+            placeholder="Insira tags separadas por vírgula"
+          />
+          <label for="postContent">Conteúdo:</label>
+          <textarea id="postContent" name="conteudo" required></textarea>
+
+          <label for="postImage">Link da Imagem:</label>
+          <input type="text" id="postImage" name="link_imagem" />
+
+          <!-- Assumindo que o autor_REF será preenchido automaticamente ou escolhido aqui -->
+          <label for="postAuthor">Autor:</label>
+          <select id="postAuthor" name="autor_REF" required>
+            <!-- Opções de autores serão preenchidas aqui -->
+          </select>
+
+          <button type="submit">Publicar Post</button>
+        </form>
+      </div>
+    </div>
+    <!-- Modal de Edição de Post -->
+    <div id="editPostModal" class="modal">
+      <div class="modal-content">
+        <span id="closeEditPostModal" class="close">&times;</span>
+        <form id="editPostForm">
+          <label for="editPostTitle">Título:</label>
+          <input type="text" id="editPostTitle" required />
+          <label for="postTags">Tags:</label>
+          <input
+            type="text"
+            id="editPostTags"
+            placeholder="Insira tags separadas por vírgula"
+          />
+          <label for="editPostContent">Conteúdo:</label>
+          <textarea id="editPostContent" required></textarea>
+          <label for="editPostImage">Link da Imagem:</label>
+          <input type="text" id="editPostImage" />
+          <button type="submit">Atualizar Post</button>
+        </form>
+      </div>
+    </div>
+    <!-- Modal para Criar Comentário -->
+    <div id="createCommentModal" class="modal">
+      <div class="modal-content">
+        <span id="closeCommentModal" class="close">&times;</span>
+        <form id="createCommentForm">
+          <label for="commentAuthor">Autor:</label>
+          <select id="commentAuthor"></select>
+          <label for="commentText">Comentário:</label>
+          <textarea id="commentText"></textarea>
+          <button type="submit">Enviar Comentário</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de Edição de Comentários -->
+    <div id="editCommentModal" class="modal">
+        <div class="modal-content">
+            <span id="closeEditCommentModal" class="close">&times;</span>
+            <h2>Editar Comentário</h2>
+            <form id="editCommentForm">                
+                <label for="editCommentText">Texto do Comentário:</label>
+                <textarea id="editCommentText" rows="4" cols="50" required></textarea>
+    
+                <!-- Botão para salvar a edição do comentário -->
+                <button type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <div id="authorList">
+      <!-- Autores são listados aqui -->
+    </div>
+
+    <div id="postList"></div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,289 @@
+.modal, #authorModal, #postModal, #editAuthorModal, #authorListModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    animation: fadeIn 0.5s;
+}
+
+.modal-content, #authorModal .modal-content, #postModal .modal-content, #editAuthorModal .modal-content, #authorListModal .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 1000px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    overflow-y: auto;
+    max-height: 90%;
+    position: relative;
+    padding-top: 50px;
+}
+
+.modal-content .close, #authorModal .modal-content .close, #postModal .modal-content .close, #editAuthorModal .modal-content .close, #authorListModal .modal-content .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-content .close:hover, #authorModal .modal-content .close:hover, #postModal .modal-content .close:hover, #editAuthorModal .modal-content .close:hover, #authorListModal .modal-content .close:hover,
+.modal-content .close:focus, #authorModal .modal-content .close:focus, #postModal .modal-content .close:focus, #editAuthorModal .modal-content .close:focus, #authorListModal .modal-content .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content form, #authorModal .modal-content form, #postModal .modal-content form, #editAuthorModal .modal-content form, #authorListModal .modal-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content form input, #authorModal .modal-content form input, #postModal .modal-content form input, #editAuthorModal .modal-content form input, #authorListModal .modal-content form input,
+.modal-content form textarea, #authorModal .modal-content form textarea, #postModal .modal-content form textarea, #editAuthorModal .modal-content form textarea, #authorListModal .modal-content form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.modal-content form button, #authorModal .modal-content form button, #postModal .modal-content form button, #editAuthorModal .modal-content form button, #authorListModal .modal-content form button {
+    background-color: #ea80ea; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    padding: 14px 20px; /* Espaçamento interno do botão */
+    margin: 8px 0; /* Margem em torno do botão */
+    border: none; /* Sem borda */
+    cursor: pointer; /* Cursor do mouse se transforma em uma mão quando passa sobre o botão */
+    width: 100%; /* Largura do botão */
+    border-radius: 5px;
+}
+
+.modal-content form button:hover, #authorModal .modal-content form button:hover, #postModal .modal-content form button:hover, #editAuthorModal .modal-content form button:hover, #authorListModal .modal-content form button:hover {
+    background-color: #ea80ea;
+    border-radius: 5px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    border-radius: 5px;
+    transition: all 0.3s ease-out;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+    background: #ddd;
+}
+
+.author-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.author-container:hover {
+    background-color: #e9e9e9;
+}
+
+.author-details {
+    flex: 1;
+    white-space: normal; /* Permite que o texto quebre para a próxima linha */
+    overflow: visible; /* Permite que o conteúdo se expanda fora do elemento */
+    font-size: 16px;
+    color: #333;
+}
+
+.author-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.author-actions button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.author-actions button:hover {
+    background-color: #ddd;
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close {
+    right: 10px;
+    color: #aaa;
+    font-size: 30px;
+    font-weight: bold;
+    transition: color 0.2s;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+
+/* Estilo geral do modal */
+#editCommentModal, #createCommentModal {
+    display: none; /* Inicialmente oculto */
+    position: fixed; /* Fixo na janela de visualização */
+    z-index: 1; /* Situa-se acima de todos os outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    overflow: auto; /* Habilita o scroll se necessário */
+    background-color: rgba(0,0,0,0.4); /* Fundo preto com opacidade */
+}
+
+/* Estilo do conteúdo do modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% do topo e centralizado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* 80% da largura */
+}
+
+/* Estilo do botão de fechar */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo dos campos de formulário */
+#editCommentForm input, #editCommentForm select, #createCommentForm input, #createCommentForm select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Estilo dos botões de formulário */
+#editCommentForm button, #createCommentForm button {
+    background-color: #cf5de3;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+#editCommentForm button:hover, #createCommentForm button:hover {
+    opacity: 0.8;
+}
+
+
+
+
+/* ESTILO PARA EDITAR COMENTÁRIO */
+
+#editCommentForm button {
+    background-color: #f09ee3;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#editCommentForm button:hover {
+    background-color: #ec71d8;
+}
+
+#editCommentForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#editCommentText {
+    width: 100%; /* Largura total */
+    padding: 12px 20px; /* Espaçamento interno */
+    margin: 8px 0; /* Margem em torno */
+    display: inline-block; /* Exibição em linha */
+    border: 1px solid #4e4444; /* Borda cinza */
+    box-sizing: border-box; /* A largura e a altura incluem o conteúdo, o preenchimento e a borda */
+    resize: vertical; /* O usuário pode redimensionar verticalmente */
+}
+
+#editCommentText {
+    background-color: #f2f2f2; /* Cor de fundo cinza claro */
+    color: #333; /* Cor de texto cinza escuro */
+}

@@ -1,8 +1,10 @@
-from flask import  Flask, request, jsonify
+from flask import  Flask, render_template, request, jsonify
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+
 
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/blog'
 mongo = PyMongo(app)
@@ -22,7 +24,7 @@ def formatar_comentarios(comentarios):
 
 @app.route('/')
 def index():
-    return "teste"
+    return render_template('index.html')
 
 @app.route('/usuarios', methods= ['GET'])
 def get_usuarios():
@@ -155,6 +157,21 @@ def delete_post(post_id):
         return jsonify({"error": "Post não encontrado"}), 404
     db.post.delete_one({"_id" : id_objeto})
     return jsonify({'message': 'Post excluído com sucesso'}), 200
+
+@app.route('/posts/<string:post_id>/comentarios/<string:comentario_id>', methods=['GET'])
+def get_comentario(post_id, comentario_id):
+    id_objeto_post = ObjectId(post_id)
+    id_objeto_comentario = ObjectId(comentario_id)
+    post = db.post.find_one({"_id": id_objeto_post, "comentarios._id": id_objeto_comentario},
+                            {"comentarios.$": 1})
+    if post and 'comentarios' in post and len(post['comentarios']) > 0:
+        comentario = post['comentarios'][0]
+        comentario['_id'] = str(comentario['_id'])
+        comentario['autor_REF'] = str(comentario['autor_REF'])
+        return jsonify(comentario)
+    else:
+        return jsonify({'error': 'Comentário não encontrado'}), 404
+
 
 @app.route('/posts/<string:post_id>/comentarios', methods=['POST'])
 def create_comentario(post_id):

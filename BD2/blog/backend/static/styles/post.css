@@ -1,0 +1,283 @@
+/* Estilos para a postagem */
+.post {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    position: relative;
+}
+
+.post h2 {
+    margin: 0;
+    color: #333;
+}
+
+.post p {
+    margin: 10px 0;
+    color: #666;
+}
+
+.post img {
+    text-align: center;
+    max-width: 400px;
+    max-height: 200px;
+    margin: 10px auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post .post-author {
+    font-weight: normal;
+    color: #666;
+    margin-top: 10px;
+}
+
+.post .post-tag {
+    font-weight: normal;
+    color: #666;
+    margin-top: 10px;
+}
+
+.post-date {
+    margin-left: auto;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.comment-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+#commentList-postID li {
+    background-color: #808080;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#commentList-postID li {
+    background-color: #808080;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#commentForm-postID {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#commentForm-postID input[type="text"] {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#commentForm-postID button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f09ee3;
+    color: white;
+    cursor: pointer;
+}
+
+#commentForm-postID button:hover {
+    background-color: #ec71d8;
+}
+
+.comment{
+    background-color: #edebeb;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.comment-date {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.comment-text {
+    margin-top: 4px;
+}
+
+
+
+
+.post button {
+    padding: 10px 15px;
+    margin-right: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post button:hover {
+    background-color: #e0e0e0;
+}
+
+.post-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.edit-button, .delete-button {
+    padding: 5px 10px;
+    font-size: 0.8em;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.edit-button {
+    color: #f09ee3;
+}
+
+.delete-button {
+    color: #ed4effba;
+}
+
+
+
+
+.post-buttons {
+    display: flex;
+    justify-content: flex-start; /* Alinha os botões à esquerda */
+    gap: 10px; /* Espaço entre os botões */
+}
+
+.comment-button {
+    margin-right: auto; /* Empurra todos os elementos para a direita do botão de comentar para a direita */
+}
+
+.comment {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.post-comments {
+    margin-top: 20px;
+}
+
+.post-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.post-buttons .edit-button {
+    background-color: #f09ee3; 
+    color: white;
+}
+
+.post-buttons .edit-button:hover {
+    background-color: #e34dca;
+}
+
+.post-buttons .delete-button {
+    background-color: #add8e6; 
+    color: white;
+}
+
+.post-buttons .delete-button:hover {
+    background-color: #67d5fa;
+}
+
+.post-buttons .comment-button {
+    background-color: #bf7ff4; 
+    color: white;
+    margin-bottom: 10px;
+}
+
+.post-buttons .comment-button:hover {
+    background-color: #ba65ff;
+}
+
+/* Estilos para os comentários */
+.comment {
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-left: 3px solid #af5cf3;
+}
+
+/* Caso os comentários estejam dentro de um cotainer, você pode aplicar um padding */
+.comments-container {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+
+
+
+
+
+#editCommentForm {
+    text-align: right;
+  }
+  
+  #editCommentAuthor, #editCommentText, #editCommentForm button {
+    border: none;
+    width: 50%;
+  }
+
+  .comment button {
+    background: none; /* Remove o fundo */
+    border: 1px solid #ccc; /* Adiciona uma borda */
+    color: #333; /* Cor do texto */
+    padding: 5px 10px; /* Diminui o tamanho do botão */
+    font-size: 0.8em; /* Diminui o tamanho do texto */
+    cursor: pointer; /* Muda o cursor para um ponteiro ao passar o mouse */
+    margin-left: 10px; /* Adiciona uma margem à esquerda para separar os botões */
+}
+
+.comment span {
+    display: flex; /* Faz com que o conteúdo dentro do span seja flexível */
+    justify-content: flex-start; /* Alinha o conteúdo à direita */
+}
+
+.comment button {
+    float: right;
+}
+
+.post-date {
+    text-align: left;
+}
+
+.post-date {
+    /* margin-left: auto; */
+    color: #666;
+    font-size: 0.9em;
+    text-align: left;
+}
