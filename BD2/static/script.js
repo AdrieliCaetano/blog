@@ -345,14 +345,21 @@ function deleteComment(postId, commentId) {
 }
 
 function createComment(postId, authorId, commentText) {
+    if (!authorId) {
+        alert('Erro: Por favor, selecione um autor para o comentário.');
+        return;
+    }
+
     if (!commentText.trim()) {
         alert('Erro: O texto do comentário não pode estar vazio.');
         return;
     }
+
     const commentData = {
         texto: commentText,
         autor_REF: authorId,
     };
+
     fetch(`/posts/${postId}/comentarios`, {
         method: 'POST',
         headers: {
@@ -375,6 +382,7 @@ function createComment(postId, authorId, commentText) {
         console.error('Erro ao criar o comentário:', error);
     });
 }
+
 
 // Fechar o modal de comentários
 document.getElementById('closeCommentModal').addEventListener('click', () => {
@@ -663,9 +671,6 @@ searchInput.addEventListener('keyup', (e) => {
         searchPostsByTags(searchInput.value);
     }
 });
-
-
-
 
 // POST MODAL
 
