@@ -1,8 +1,12 @@
 from flask import  Flask, render_template, request, jsonify
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
+import pytz
+
+fuso_horario_brasilia = pytz.timezone('America/Sao_Paulo')
 
 app = Flask(__name__)
+
 
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/blog'
 mongo = PyMongo(app)
@@ -140,7 +144,7 @@ def create_post():
     dados_post = request.json
     if not request.json or 'titulo' not in request.json or 'conteudo' not in request.json or 'autor_REF' not in request.json:
         return jsonify({'error': 'Dados inválidos para o post'}), 400
-    dados_post['data'] = datetime.now()
+    dados_post['data'] = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(fuso_horario_brasilia)
     result = db.post.insert_one(dados_post)
     if result.inserted_id:
         return jsonify({'message': 'Post criado com sucesso', 'id': str(result.inserted_id)}), 201
@@ -176,7 +180,7 @@ def create_comentario(post_id):
     dados_comentario = request.json
     if not dados_comentario or 'texto' not in dados_comentario or 'autor_REF' not in dados_comentario:
         return jsonify({'error': 'Dados inválidos para o comentário'}), 400
-    dados_comentario['data'] = datetime.now()
+    dados_comentario['data'] = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(fuso_horario_brasilia)
     dados_comentario['_id'] = ObjectId()
     id_objeto_post = ObjectId(post_id)
     result = db.post.update_one(
