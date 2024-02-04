@@ -312,7 +312,7 @@ document.getElementById('editCommentForm').addEventListener('submit', function(e
 
     // Removendo a referência ao autor na atualização
     updateComment(postId, commentId, newText);
-});d
+});
 
 // Função para excluir um comentário
 function deleteComment(postId, commentId) {
