@@ -109,7 +109,8 @@ function renderPosts(posts) {
 
     posts.forEach(post => {
         const authorName = authorsList[post.autor_REF] || 'Autor desconhecido';
-        const tags = post.tags ? post.tags.join(', ') : ''; 
+        // Certifique-se de que tags é um array antes de chamar join
+        const tags = Array.isArray(post.tags) ? post.tags.join(', ') : ''; 
         const commentsSection = post.comentarios ? post.comentarios.map(comentario => `
             <div class="comment">
                 <button onclick="openEditCommentModal('${post._id}', '${comentario._id}')">Editar</button>
@@ -151,6 +152,13 @@ function openEditPostModal(postId) {
             document.getElementById('editPostTitle').value = post.titulo;
             document.getElementById('editPostContent').value = post.conteudo;
             document.getElementById('editPostImage').value = post.link_imagem || '';
+            // Aqui você define o valor do autor, mas não permite a edição
+            const editPostAuthor = document.getElementById('editPostAuthor');
+            if (editPostAuthor) {
+                editPostAuthor.value = post.autor_REF;
+                editPostAuthor.disabled = true; // Desativa a seleção do autor
+            }
+            document.getElementById('editPostTags').value = post.tags ? post.tags.join(', ') : '';
             document.getElementById('editPostForm').dataset.postId = postId; // Armazena o ID do post no dataset do formulário
 
             // Abre o modal de edição
@@ -158,6 +166,7 @@ function openEditPostModal(postId) {
         })
         .catch(error => console.error('Erro ao buscar os detalhes do post:', error));
 }
+
 
 document.getElementById('closeEditPostModal').addEventListener('click', () => {
     document.getElementById('editPostModal').style.display = 'none';
@@ -197,15 +206,16 @@ function deletePost(postId) {
     }
 }
 
-function updatePost(postId, title, content, imageLink, tags) {
+function updatePost(postId, title, content, imageLink, authorRef, tags) {
     const postData = {
         titulo: title,
         conteudo: content,
         link_imagem: imageLink,
+        autor_REF: authorRef,
         tags: tags,
     };
 
-    console.log('Atualizando post:', postId, postData);
+    console.log('Atualizando post:', postId, postData); // Debug: Imprime os dados sendo enviados
 
     fetch('/posts/' + postId, {
         method: 'PUT',
@@ -461,17 +471,27 @@ authorForm.addEventListener('submit', function (e) {
         },
         body: JSON.stringify(authorData),
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            // Fechar modal e atualizar dropdown de autores, se necessário
-            authorModal.style.display = 'none';
-            updateAuthorDropdown();
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    .then(response => {
+        // Verifica se o email já está em uso antes de processar a resposta
+        if (!response.ok && response.status === 400) {
+            // Substitua o código de status 400 pelo código que seu servidor retorna quando o email já está em uso
+            throw new Error('Email já está em uso.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        // Fechar modal e atualizar dropdown de autores, se necessário
+        document.getElementById('authorModal').style.display = 'none';
+        updateAuthorDropdown();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        // Exibe uma mensagem de erro sem fechar o modal
+        alert(error.message); // ou utilize um elemento no DOM para exibir a mensagem
+    });
 });
+
 
 function updateAuthor(authorId, authorData) {
     fetch('/usuarios/' + authorId, {

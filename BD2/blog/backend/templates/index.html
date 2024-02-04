@@ -26,8 +26,9 @@
 
   <body>
     <header>
+      <img class="logo" src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo do Blog">
       <div class="titulo">
-        <h1>Blog</h1>
+        <h1>TECHBlog</h1>
       </div>
       <div class="botoes">
         <button class="button" id="contentButton">Início</button>
@@ -134,6 +135,8 @@
           <textarea id="editPostContent" required></textarea>
           <label for="editPostImage">Link da Imagem:</label>
           <input type="text" id="editPostImage" />
+          <label for="editPostAuthor">Autor:</label>
+          <select id="editPostAuthor" required></select>
           <button type="submit">Atualizar Post</button>
         </form>
       </div>
@@ -154,19 +157,18 @@
 
     <!-- Modal de Edição de Comentários -->
     <div id="editCommentModal" class="modal">
-        <div class="modal-content">
-            <span id="closeEditCommentModal" class="close">&times;</span>
-            <h2>Editar Comentário</h2>
-            <form id="editCommentForm">                
-                <label for="editCommentText">Texto do Comentário:</label>
-                <textarea id="editCommentText" rows="4" cols="50" required></textarea>
-    
-                <!-- Botão para salvar a edição do comentário -->
-                <button type="submit">Salvar</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span id="closeEditCommentModal" class="close">&times;</span>
+        <h2>Editar Comentário</h2>
+        <form id="editCommentForm">
+          <label for="editCommentText">Texto do Comentário:</label>
+          <textarea id="editCommentText" rows="4" cols="50" required></textarea>
+
+          <!-- Botão para salvar a edição do comentário -->
+          <button type="submit">Salvar</button>
+        </form>
+      </div>
     </div>
-    
 
     <div id="authorList">
       <!-- Autores são listados aqui -->
